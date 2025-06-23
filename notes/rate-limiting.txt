@@ -1,0 +1,55 @@
+Sometimes the users sent too many requests to the server which can cause 429 error. The mechanism of
+asking the client to slow down the rate of requests is commonly called rate limiting, and it is done 
+to prevent DOS attack (Denial of service attack)
+
+we can add the rate limiting mechanism using upstash which is a serverlss data platform
+
+1- from upstash create database give it a name and data location
+
+
+2- copy the upstash/redis url and paste it on .env.localhost
+    UPSTASH_REDIS_URL=https://brief-prawn-11229.upstash.io
+
+3- copy the upstash/redis token and paste it on .env.localhost
+
+4- Add these two keys to config file
+
+5- run: npm install @upstash/ratelimit
+
+6- run: npm install @upstash/redis
+
+7- on database create anew file called redis.ts
+import config from "@/lib/config";
+import { Redis } from "@upstash/redis";
+
+
+const redis = new Redis({
+    url: config.env.upstash.redisUrl,
+    token: config.env.upstash.qstashToken,
+})
+
+export default redis;
+
+
+8- on the lib create a new file called ratelimit.ts
+import redis from "@/database/redis";
+import { Ratelimit } from "@upstash/ratelimit"; 
+
+const ratelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(5, "1m"),
+  analytics: true,
+  
+  prefix: "@upstash/ratelimit",
+});
+
+export default ratelimit
+
+9- add the logic to signIn and signUp functions on the auth.ts file from actions.
+    const ip = (await headers()).get("x-forwarded-for") || "127.0.0.1";
+    const { success } = await ratelimit.limit(ip);
+    if (!success) return redirect("/too-fast");
+
+10- on the app create a new folder called too-fast which has page.tsx file 
+
+

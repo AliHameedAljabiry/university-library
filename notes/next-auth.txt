@@ -1,0 +1,20 @@
+1- install next auth
+    npm install next-auth@beta bcryptjs --legacy-peer-deps
+
+2- if the app has simple data such as users and data with no social auth like google and github we don't need to use adapters, but if 
+we have social auth we have to go with adapters, and since we used drizzle we chose it as adapter
+
+3- run: npx auth secret
+
+4- on the main directory create anew file called auth.ts
+
+
+5- create a new api route app/api/auth/auth/[...nextauth]/route.ts
+import { handlers } from "@/auth" 
+export const { GET, POST } = handlers
+
+
+6- on the main directory create a new file called middleware.ts
+export { auth as middleware } from "@/auth"
+
+7- 

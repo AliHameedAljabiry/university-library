@@ -1,0 +1,123 @@
+to create database with PotsgresSQL we have to ceate server and do a lot of setup and it cost money even if on the development satge
+so we can use servless platform the allow us to set postgreSQL database 
+
+***setup database***
+1- on neonPostgre website create a new project with name and AWS and location
+
+2- connect to your database by clicking on connect and copy the snippet and paset it in .env.lical file
+NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/jsmasteryali
+NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=public_BnWwHDKticqHZp3UZ0Q3FK4pbps=
+IMAGEKIT_PRIVATE_KEY=private_b5ceTsorpjlQwj1w08MlDzq45IM=
+NEXT_PUBLIC_API_ENDPOINT=https://localhost:3000
+DATABASE_URL=postgresql://neondb_owner:npg_1OZFpmq5CUzB@ep-polished-meadow-ab1zlpjp-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require
+
+3- add it  to your config file
+    databaseUrl: process.env.DATABASE_URL!,
+
+
+from https://orm.drizzle.team/docs/tutorials/drizzle-with-neon
+4- copy the commands
+    npm i drizzle-orm --legacy-peer-deps
+    npm i -D drizzle-kit --legacy-peer-deps
+
+    and paste them on the terminal
+
+
+5- install neon servless sriver
+    npm i @neondatabase/serverless --legacy-peer-deps
+
+
+6- copy the db.ts file from drizzle and go to your main directory and create a new 
+folder called database. inside it create a new file called dirzzle.ts
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
+import  config  from "@/lib/config";
+
+const sql = neon(config.env.databaseUrl);
+export const db = drizzle({ client: sql });
+
+
+7- on the database create another file called schema.ts
+
+import {
+    date, 
+    uuid, 
+    varchar, 
+    integer, 
+    pgTable, 
+    text, 
+    timestamp, 
+    pgEnum 
+} from 'drizzle-orm/pg-core';
+
+
+export const STATUS_ENUM = pgEnum('status', [ 
+    'PENDING', 
+    'APPROVED', 
+    'REJECTED'
+]);
+export const ROLE_ENUM = pgEnum('role', [
+    'USER', 
+    'ADMIN'
+]);
+export const BORROW_STATUS_ENUM = pgEnum('borrow_status', [
+    'BORROWED', 
+    'RETURNED'
+]);
+
+export const users = pgTable('users', {
+    id: uuid('id').notNull().primaryKey().defaultRandom().unique(),
+    fullName: varchar('full_name', { length: 255 }).notNull(),
+    email: text('email').notNull().unique(),
+    universityId: integer('university_id').notNull().unique(),
+    passowrd: text('password').notNull(),
+    universityCard: text('university_card').notNull(),
+    status: STATUS_ENUM('status').notNull().default('PENDING'),
+    role: ROLE_ENUM('role').notNull().default('USER'),
+    lastActivityDate: date('last_activity_date').notNull().defaultNow(),
+    createdAt: timestamp('created_at', {withTimezone: true}).defaultNow(),
+
+});
+
+8- install dotenv: npm i dotenv --legacy-peer-deps
+
+9- on the main directory create a new file called drizzle.config.ts
+import { config } from 'dotenv';
+import { defineConfig } from "drizzle-kit";
+
+config({ path: '.env.local' });
+
+export default defineConfig({
+  schema: "./database/schema.ts",
+  out: "./migrations",
+  dialect: "postgresql",
+  dbCredentials: {
+    url: process.env.DATABASE_URL!,
+  },
+});
+
+
+10- run: npx drizzle-kit generate
+
+11- run: npx drizzle-kit migrate
+
+12- on the pachage.json file add to the script
+    "db:generate": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:studio": "npx drizzle-kit studio" 
+
+
+13- run: npm run db:studio 
+and follow the link it will take us to studio you can add data to the table
+
+
+14- fetch the data
+    import { db } from "@/database/drizzle";
+    import { users } from "@/database/schema";
+
+    const result = await db.select().from(users);
+    console.log(JSON.stringify(result, null, 2));
+
+
+
+

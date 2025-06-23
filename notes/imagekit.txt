@@ -1,0 +1,64 @@
+we use imagekit to store images and videos for free
+
+*** set up ***
+1- on imagekit website sign up, select role: chose Engineering Manager, setup imagekit id 
+such as your name and select the data storage location
+
+2- on developer options copy the [public key, private key] 
+
+3- on the main directory create a new file called .env.local and paste the keys like this
+NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT="https://ik.imagekit.io/jsmasteryali"
+NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY="public_BnWwHDKticqHZp3UZ0Q3FK4pbps="
+IMAGEKIT_PRIVATE_KEY="private_b5ceTsorpjlQwj1w08MlDzq45IM="
+NEXT_PUBLIC_API_ENDPOINT="https://localhost:3000/"
+
+
+
+4- to easlly handling the keys from env filem we create a new file on lib called config.ts
+const config = {
+  env: {
+    apiEndpoint: process.env.NEXT_PUBLIC_API_ENDPOINT!,
+    prodApiEndpoint: process.env.NEXT_PUBLIC_PROD_API_ENDPOINT!,
+    imagekit: {
+      publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!,
+      urlEndpoint: process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!,
+      privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
+    },
+    databaseUrl: process.env.DATABASE_URL!,
+    upstash: {
+      redisUrl: process.env.UPSTASH_REDIS_URL!,
+      redisToken: process.env.UPSTASH_REDIS_TOKEN!,
+      qstashUrl: process.env.QSTASH_URL!,
+      qstashToken: process.env.QSTASH_TOKEN!,
+    },
+    resendToken: process.env.RESEND_TOKEN!,
+  },
+};
+
+export default config;
+
+
+5- run:  npm install imagekitio-next
+
+
+
+6- create a new file on the componants called fileUpload.tsx
+
+
+
+7- on the app create a ne api route /app/api/auth/imagekit/route.ts
+import config from '@/lib/config';
+import ImageKit from 'imagekit';
+import { NextResponse } from 'next/server';
+
+const { env: { imagekit: { publicKey, privateKey, urlEndpoint } } } = config;
+
+const imagekit = new ImageKit({
+    publicKey,
+    privateKey,
+    urlEndpoint,
+});
+
+export async function GET() {
+    return NextResponse.json(imagekit.getAuthenticationParameters())
+};
