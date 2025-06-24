@@ -38,7 +38,7 @@ export const sendEmail = async ({
       provider: resend({ token: config.env.resendToken }),
     },
     body: {
-      from: "JS Mastery <contact@adrianjsmastery.com>",
+      from: "Ali Hameed <hello.alihameeddev.xyz>",
       to: [email],
       subject,
       html: message,
@@ -133,4 +133,48 @@ export const { POST } = serve<InitialData>(async (context) => {
 
 
 
-5- 
+5- deploy the app on vercel and copy the url and go to settings >> enviroment variables and the kay: NEXT_PUBLIC_PROD_API_ENDPOINT 
+  and the paste the url as a value and save it
+  after that add it to config: prodApiEndpoint: process.env.NEXT_PUBLIC_PROD_API_ENDPOINT!, then redepley the app on vercel
+
+
+6- In oredr to send the eamil to the user we use Resend.com
+
+STEP_ONE: from resend go to api keys and create a new api key with name and full access permission and all domains and then add it 
+          you will get the api kay copy it and add it to .env.local 
+
+STEP_TWO: pay a domain from hostinger and verify it from the email.
+          
+STEP_THREE: ON Resend go to domains >> add domain use the domain you bought from 
+            hostinger and add word before it like hello >> hello.alihameeddev.xyz
+
+STEP_FOUR: from resend copy the DNS records and paste them on the hostinger >> your domain >> DNS
+          which they should have type, name, mail serve, priority and TTL
+          copy each DNS record at a time and add it
+          once you complete them click I have added the records, it will take time 
+
+STEP_FIFE: update lastActivityDate once a day for the user to check the last time the visit the website: on the root/layout add
+  after(async () => {
+    if(!session?.user?.id) return
+
+     // get the user and see if the last activity date is today
+    const user = await db 
+      .select()
+      .from(users)
+      .where(eq(users.id, session?.user?.id))
+      .limit(1)
+    if (user[0].lastActivityDate == new Date().toISOString().slice(0, 10))
+      return;
+
+    await db
+      .update(users)
+      .set({ lastActivityDate: new Date().toISOString().slice(0, 10)})
+      .where(eq(users.id, session?.user?.id))
+  })
+
+
+STEP_SIX: from env.local copy the RESEND_TOKEN and go to vercel >> settings anvironment variables add it there
+  
+
+
+     
