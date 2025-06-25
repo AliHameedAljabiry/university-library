@@ -38,7 +38,7 @@ export const sendEmail = async ({
       provider: resend({ token: config.env.resendToken }),
     },
     body: {
-      from: "Ali Hameed <hello.alihameeddev.xyz>",
+      from: "Ali Hameed <contact@alihameeddev.xyz>", // HERE we added the email domain
       to: [email],
       subject,
       html: message,
@@ -134,7 +134,7 @@ export const { POST } = serve<InitialData>(async (context) => {
 
 
 5- deploy the app on vercel and copy the url and go to settings >> enviroment variables and the kay: NEXT_PUBLIC_PROD_API_ENDPOINT 
-  and the paste the url as a value and save it
+  and the paste the url as a value and save it and go to .env.local and add it there
   after that add it to config: prodApiEndpoint: process.env.NEXT_PUBLIC_PROD_API_ENDPOINT!, then redepley the app on vercel
 
 
@@ -143,10 +143,21 @@ export const { POST } = serve<InitialData>(async (context) => {
 STEP_ONE: from resend go to api keys and create a new api key with name and full access permission and all domains and then add it 
           you will get the api kay copy it and add it to .env.local 
 
-STEP_TWO: pay a domain from hostinger and verify it from the email.
-          
+STEP_TWO: pay a domain from hostinger and verify it from the email. and then from on this domain from hostinger go to 
+          domain overview and get a professional email for this domain,
+          so click manage email and create a new email give it a name like contact and this will be automaticly fowlloed by the domain name
+          copy this email and go to workflow.ts and use it for in the body >> from 
+          body: {
+            from: "Ali Hameed <contact@alihameeddev.xyz>",
+            to: [email],
+            subject,
+            html: message,
+          },
+
+
+3:54:16          
 STEP_THREE: ON Resend go to domains >> add domain use the domain you bought from 
-            hostinger and add word before it like hello >> hello.alihameeddev.xyz
+            hostinger
 
 STEP_FOUR: from resend copy the DNS records and paste them on the hostinger >> your domain >> DNS
           which they should have type, name, mail serve, priority and TTL
