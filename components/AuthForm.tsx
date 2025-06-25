@@ -26,6 +26,8 @@ import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
 import FileUpload from "@/components/FileUpload";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 interface Props<T extends FieldValues> {
   schema: ZodType<T>;
@@ -41,6 +43,10 @@ const AuthForm = <T extends FieldValues>({
   onSubmit,
 }: Props<T>) => {
   const router = useRouter();
+
+  // handle passowrd (show, hide)
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const isSignIn = type === "SIGN_IN";
 
@@ -96,7 +102,24 @@ const AuthForm = <T extends FieldValues>({
                     {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
                   </FormLabel>
                   <FormControl>
-                    {field.name === "universityCard" ? (
+                    {field.name === "password" ? (
+                      <div className="relative">
+                        <Input
+                          required
+                          type={showPassword ? "text" : "password"}
+                          {...field}
+                          className="form-input pr-10"
+                        />
+                        <button
+                          type="button"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
+                          tabIndex={-1}
+                          onClick={() => setShowPassword((prev) => !prev)}
+                        >
+                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                      </div>
+                    ) : field.name === "universityCard" ? (
                       <FileUpload
                         type="image"
                         accept="image/*"
@@ -108,9 +131,7 @@ const AuthForm = <T extends FieldValues>({
                     ) : (
                       <Input
                         required
-                        type={
-                          FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]
-                        }
+                        type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
                         {...field}
                         className="form-input"
                       />

@@ -30,6 +30,7 @@ export const sendEmail = async ({
       to: [email],
       subject,
       html: message,
+      
     },
   });
 };

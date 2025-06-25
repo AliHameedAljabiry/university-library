@@ -188,4 +188,7 @@ STEP_SIX: from env.local copy the RESEND_TOKEN and go to vercel >> settings anvi
   
 
 3:44
+is it possple that my email domain has .xyz and the email i signed up with has .com could cuase the issue?
+"from": "Ali Hameed <hello.alihameeddev.xyz>",
+"to": ["alihameed7121996ph@gmail.com"],
      
