@@ -70,7 +70,7 @@ export const users = pgTable('users', {
     fullName: varchar('full_name', { length: 255 }).notNull(),
     email: text('email').notNull().unique(),
     universityId: integer('university_id').notNull().unique(),
-    passowrd: text('password').notNull(),
+    password: text('password').notNull(),
     universityCard: text('university_card').notNull(),
     status: STATUS_ENUM('status').notNull().default('PENDING'),
     role: ROLE_ENUM('role').notNull().default('USER'),

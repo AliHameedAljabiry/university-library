@@ -76,7 +76,7 @@ export const signUp = async (params: AuthCredentials) => {
       fullName,
       email,
       universityId,
-      passowrd: hashedPassword,
+      password: hashedPassword,
       universityCard,
     });
 

@@ -1,33 +1,36 @@
-import Image from 'next/image'
-import React, { ReactNode } from 'react'
-import logo from '@/public/icons/logoImage.svg'
-import authImage from '@/public/images/auth-illustration.png'
-import { auth } from '@/auth'
-import { redirect } from 'next/navigation'
+import { ReactNode } from "react";
+import Image from "next/image";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const Layout = async ({children} : {children: ReactNode}) => {
+const Layout = async ({ children }: { children: ReactNode }) => {
+  const session = await auth();
 
-  const session = await auth()
-  if (session) redirect("/")
+  if (session) redirect("/");
 
   return (
-    <main className='auth-container'>
-      <section className='auth-form'>
-        <div className='auth-box'>
-            <div className='flex flex-row gap-3'>
-                <Image src={logo} alt='logo' width={37} height={37}/>
-                <h1 className='text-2xl font-semibold text-white'>BookWise</h1>
-            </div>
+    <main className="auth-container">
+      <section className="auth-form">
+        <div className="auth-box">
+          <div className="flex flex-row gap-3 m-auto">
+            <Image src="/icons/logo.svg" alt="logo"  width={150} height={150} />
+          </div>
 
-            <div>{children}</div> 
+          <div>{children}</div>
         </div>
       </section>
 
-      <section className='auth-illustration'>
-        <Image src={authImage} alt='auth illustration' width={1000} height={1000} className='size-full object-cover'/>
+      <section className="auth-illustration">
+        <Image
+          src="/images/auth-illustration.png"
+          alt="auth illustration"
+          height={1000}
+          width={1000}
+          className="size-full object-cover"
+        />
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default Layout // 1:12:03
+export default Layout;

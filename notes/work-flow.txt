@@ -176,5 +176,5 @@ STEP_FIFE: update lastActivityDate once a day for the user to check the last tim
 STEP_SIX: from env.local copy the RESEND_TOKEN and go to vercel >> settings anvironment variables add it there
   
 
-
+3:44
      
