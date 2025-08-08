@@ -1,0 +1,1 @@
+ALTER TABLE "borrow_requests" ADD COLUMN "created_at" timestamp with time zone DEFAULT now();

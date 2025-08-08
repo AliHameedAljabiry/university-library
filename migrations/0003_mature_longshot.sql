@@ -1,0 +1,2 @@
+CREATE TYPE "public"."promotion_borrowing_status" AS ENUM('BORROWED', 'REJECTED');--> statement-breakpoint
+ALTER TABLE "borrow_requests" ADD COLUMN "status" "promotion_borrowing_status" DEFAULT 'REJECTED' NOT NULL;

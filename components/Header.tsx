@@ -1,4 +1,5 @@
 'use client'
+
 import Link from 'next/link'
 import React from 'react'
 import { usePathname } from 'next/navigation'
@@ -8,11 +9,22 @@ import logo from '@/public/icons/logo.svg'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Session } from 'next-auth'
 
+type SessionWithRole = Session & {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    role?: string | null;
+  }
+}
 
-const Header = ( {session}: { session: Session}) => {
+
+const Header = ( {session}: { session: SessionWithRole }) => {
+
     const pathname = usePathname()
+
   return (
-    <header className='my-10 flex items-center  justify-between gap-5'>
+    <header className='my-10 flex items-center w-full justify-between gap-5'>
         <Link href='/'>
             <Image src={logo}  alt='logo' width={100} />
         </Link>
@@ -21,14 +33,15 @@ const Header = ( {session}: { session: Session}) => {
                 <Link href='/librery' className={cn('text-base cursor-pointer capitalize', pathname === '/librery' ? 'text-light-200 font-semibold' : 'text-light-100')}>Library</Link>
                
             </li>
-            <li>
-                <Link href='/sign-in' className={cn('text-base cursor-pointer capitalize', pathname === '/sign-in' ? 'text-light-200 font-semibold' : 'text-light-100')}>Sign In</Link>
-               
-            </li>
-            <li>
-                <Link href='/sign-up' className={cn('text-base cursor-pointer capitalize', pathname === '/sign-up' ? 'text-light-200 font-semibold' : 'text-light-100')}>Sign Up</Link>
-               
-            </li>
+
+            {/* Show Admin link only for admins */}
+            {session?.user?.role === 'ADMIN' && (
+                <li>
+                <Link href='/admin' className={cn('text-base cursor-pointer capitalize', pathname.startsWith('/admin') ? 'text-light-200 font-semibold' : 'text-light-100')}>Admin</Link>
+                </li>
+            )}
+
+            
             <li>
                 <Link href='/my-profile'> 
                     <Avatar>

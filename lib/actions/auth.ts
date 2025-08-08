@@ -34,7 +34,7 @@ export const signInWithCredentials = async (
 
     return { success: true };
   } catch (error) {
-    console.log(error, "Signin error");
+   
     return { success: false, error: "Signin error" };
   }
 };
@@ -80,7 +80,8 @@ export const signUp = async (params: AuthCredentials) => {
 
     return { success: true };
   } catch (error) {
-    console.log(error, "Signup error");
     return { success: false, error: "Signup error" };
   }
 };
+
+

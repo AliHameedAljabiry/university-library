@@ -1,27 +1,28 @@
-import BookList from "@/components/BookList";
-import BookOverview from "@/components/BookOverview";
-import { sampleBooks } from "@/constants";
-import { db } from "@/database/drizzle";
-import { users } from "@/database/schema";
+'use client'
 
+import BookList from '@/components/BookList';
+import BookOverview from '@/components/BookOverview';
+import useSWR from 'swr'
 
-const Home = async () => {
-  const result = await db.select().from(users);
-  console.log(JSON.stringify(result, null, 2));
+const fetcher = (url: string) => fetch(url).then(res => res.json())
+const Home = () => {
+  const { data: latestBooks = [], isLoading, error, mutate } = useSWR('/api/books/all-books', fetcher, {
+    refreshInterval: 3000, 
+  })
+  
+
 
   return (
     <>
-      <BookOverview {... sampleBooks[0]}/> 
+     <BookOverview {...latestBooks[0]}  />
 
-      <BookList 
-        title="Latest Books" 
-        books={sampleBooks} 
-        containerClassName="mt-20"
+     <BookList
+        title="Latest Books"
+        books={latestBooks.slice(1)}
+        containerClassName="mt-28"
       />
-      
     </>
-  )
-  
-}
+  );
+};
 
 export default Home;

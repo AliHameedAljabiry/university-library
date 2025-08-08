@@ -92,50 +92,27 @@ const AuthForm = <T extends FieldValues>({
           className="w-full space-y-6"
         >
           {Object.keys(defaultValues).map((field) => (
-            <FormField
-              key={field}
-              control={form.control}
-              name={field as Path<T>}
-              render={({ field }) => (
+            <FormField key={field} control={form.control} name={field as Path<T>} render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="capitalize">
-                    {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
-                  </FormLabel>
+                  <FormLabel className="capitalize">{FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}</FormLabel>
                   <FormControl>
-                    {field.name === "password" ? (
-                      <div className="relative">
-                        <Input
-                          required
-                          type={showPassword ? "text" : "password"}
-                          {...field}
-                          className="form-input pr-10"
-                        />
-                        <button
-                          type="button"
-                          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
-                          tabIndex={-1}
-                          onClick={() => setShowPassword((prev) => !prev)}
-                        >
-                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                        </button>
-                      </div>
-                    ) : field.name === "universityCard" ? (
-                      <FileUpload
-                        type="image"
-                        accept="image/*"
-                        placeholder="Upload your ID"
-                        folder="ids"
-                        variant="dark"
-                        onFileChange={field.onChange}
-                      />
-                    ) : (
-                      <Input
-                        required
-                        type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
-                        {...field}
-                        className="form-input"
-                      />
-                    )}
+                    {
+                      field.name === "password" ? (
+                        <div className="relative">
+                          <Input required type={showPassword ? "text" : "password"} {...field} className="form-input pr-10"/>
+                          <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" tabIndex={-1} onClick={() => setShowPassword((prev) => !prev)}>
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                          </button>
+                        </div>
+
+                      ) : field.name === "universityCard" ? (
+                        <FileUpload type="image" accept="image/*" placeholder="Upload your ID" folder="ids" variant="dark" onFileChange={field.onChange} />
+
+                      ) : (
+                        <Input required type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]} {...field} className="form-input" />
+                      )
+
+                    }
                   </FormControl>
                   <FormMessage />
                 </FormItem>

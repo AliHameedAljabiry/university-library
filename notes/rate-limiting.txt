@@ -7,18 +7,18 @@ we can add the rate limiting mechanism using upstash which is a serverlss data p
 1- from upstash create database give it a name and data location
 
 
-2- copy the upstash/redis url and paste it on .env.localhost
+2- copy the upstash/redis url and paste it on .env.local
     UPSTASH_REDIS_URL=https://brief-prawn-11229.upstash.io
 
-3- copy the upstash/redis token and paste it on .env.localhost
+3- copy the upstash/redis token and paste it on .env.local
 
 4- Add these two keys to config file
 
-5- run: npm install @upstash/ratelimit
+5- run: npm install @upstash/ratelimit --legacy-peer-deps
 
-6- run: npm install @upstash/redis
+6- run: npm install @upstash/redis --legacy-peer-deps
 
-7- on database create anew file called redis.ts
+7- on database create a new file called redis.ts
 import config from "@/lib/config";
 import { Redis } from "@upstash/redis";
 

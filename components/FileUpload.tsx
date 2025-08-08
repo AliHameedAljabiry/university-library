@@ -45,19 +45,9 @@ interface Props {
   value?: string;
 }
 
-const FileUpload = ({
-  type,
-  accept,
-  placeholder,
-  folder,
-  variant,
-  onFileChange,
-  value,
-}: Props) => {
+const FileUpload = ({ type, accept, placeholder, folder, variant, onFileChange, value }: Props) => {
   const ikUploadRef = useRef(null);
-  const [file, setFile] = useState<{ filePath: string | null }>({
-    filePath: value ?? null,
-  });
+  const [file, setFile] = useState<{ filePath: string | null }>({ filePath: value ?? null,});
   const [progress, setProgress] = useState(0);
 
   const styles = {
@@ -76,7 +66,7 @@ const FileUpload = ({
   };
 
   const onSuccess = (res: any) => {
-    console.log("Upload Success:", res);
+    
     setFile(res);
     onFileChange(res.filePath);
     toast.success(`${res.filePath} uploaded successfully!`);

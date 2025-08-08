@@ -9,7 +9,7 @@ we have social auth we have to go with adapters, and since we used drizzle we ch
 4- on the main directory create anew file called auth.ts
 
 
-5- create a new api route app/api/auth/auth/[...nextauth]/route.ts
+5- create a new api route app/api/auth/[...nextauth]/route.ts
 import { handlers } from "@/auth" 
 export const { GET, POST } = handlers
 

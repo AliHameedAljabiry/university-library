@@ -23,7 +23,7 @@ from https://orm.drizzle.team/docs/tutorials/drizzle-with-neon
     and paste them on the terminal
 
 
-5- install neon servless sriver
+5- install neon servless server
     npm i @neondatabase/serverless --legacy-peer-deps
 
 
@@ -117,6 +117,12 @@ and follow the link it will take us to studio you can add data to the table
 
     const result = await db.select().from(users);
     console.log(JSON.stringify(result, null, 2));
+
+
+to reset database:
+go to drizzle >> console and run 
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
 
 
 

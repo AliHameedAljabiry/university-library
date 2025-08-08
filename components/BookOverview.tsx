@@ -1,77 +1,98 @@
-import { Star } from 'lucide-react'
-import React from 'react'
-import { Button } from '@/components/ui/button'
-import book from '@/public/icons/book.svg'
-import Image from 'next/image'
-import BookCover from '@/components/BookCover'
+'use client'
+import React from "react";
+import Image from "next/image";
+import BookCover from "@/components/BookCover";
+import BorrowBook from "@/components/BorrowBook";
+import useSWR from 'swr'
 
-const BookOverview = ({ 
-  title, 
-  author, 
-  genre, 
-  rating, 
-  total_copies, 
-  available_copies, 
-  description, 
-  color, 
-  cover 
 
-}: Book) => {
+interface Props extends Book {
+  user: User;
+}
+const fetcher = (url: string) => fetch(url).then(res => res.json())
+
+const BookOverview =  ({ title, author, genre, rating, totalCopies, availableCopies, description, coverColor, coverUrl, id}: Props) => {
+
+  const { data: user  } = useSWR('/api/users/authorized-user', fetcher, {
+     refreshInterval: 3000, // Poll every 3 seconds for real-time updates
+  } )
+
+  
+
+  const borrowingEligibility = {
+  isEligible: availableCopies > 0 && user?.status === "APPROVED",
+  message:
+    availableCopies <= 0
+      ? "Book is not available"
+      : user?.status !== "APPROVED"
+      ? "Your account is not approved for borrowing"
+      : "You are not eligible to borrow this book",
+  };
+
   return (
-    <section className='book-overview'>
-      <div className='flex flex-1 flex-col gap-5'>
+    <section className="book-overview">
+      <div className="flex flex-1 flex-col gap-5">
         <h1>{title}</h1>
 
-        <div className='book-info'>
+        <div className="book-info">
           <p>
-            By <span className='font-semibold text-light-200'>{author}</span>
-          </p>
-          <p>
-            By <span className='font-semibold text-light-200'>{genre}</span>
+            By <span className="font-semibold text-light-200">{author}</span>
           </p>
 
-          <div className='flex flex-row items-center gap-1'>
-            <Star className='h-5 w-5 text-wight-300'/>
+          <p>
+            Category{" "}
+            <span className="font-semibold text-light-200">{genre}</span>
+          </p>
+
+          <div className="flex flex-row gap-1">
+            <Image src="/icons/star.svg" alt="star" width={22} height={22} />
             <p>{rating}</p>
           </div>
         </div>
 
-        <div className='book-copies'>
+        <div className="book-copies">
           <p>
-            Total Copies: <span className='font-semibold text-light-200'>{total_copies}</span>
+            Total Books <span>{totalCopies}</span>
           </p>
+
           <p>
-            Available Books: <span className='font-semibold text-light-200'>{available_copies}</span>
+            Available Books <span>{availableCopies}</span>
           </p>
         </div>
 
-        <p className='book-description'>{description}</p>
+        <p className="book-description">{description}</p>
+        
 
-        <Button className='book-overview_btn gap-2' >
-          <Image src={book} alt="book" width={20} height={20}/>
-          <p className='font-bebas-neue text-xl text-dark-100'>Borrow</p>
-        </Button>
+        {user && (
+          
+          <BorrowBook
+            bookId={id}
+            userId={user.id}
+            borrowingEligibility={borrowingEligibility}
+          />
+        )}
       </div>
 
-      <div className='relative flex flex-1 items-center justify-center'>
-        <div className='relative'>
+      <div className="relative flex flex-1 justify-center">
+        <div className="relative">
           <BookCover
             variant="wide"
             className="z-10"
-            coverColor={color}
-            coverImage={cover}
+            coverColor={coverColor}
+            coverImage={coverUrl}
           />
-          <div className='absolute left-16 top-10 rotate-12 opacity-40 max-sm:hidden'>
+
+          <div className="absolute left-16 top-10 rotate-12 opacity-40 max-sm:hidden">
             <BookCover
-            variant="wide"
-            coverColor={color}
-            coverImage={cover}
-          />
+              variant="wide"
+              coverColor={coverColor}
+              coverImage={coverUrl}
+            />
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default BookOverview
+export default BookOverview;

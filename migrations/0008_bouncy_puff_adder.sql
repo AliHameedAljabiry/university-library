@@ -1,0 +1,1 @@
+ALTER TABLE "users" ALTER COLUMN "books_borrowed" SET DEFAULT 0;

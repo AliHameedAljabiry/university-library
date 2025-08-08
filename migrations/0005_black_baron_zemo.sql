@@ -1,0 +1,1 @@
+ALTER TYPE "public"."promotion_borrowing_status" ADD VALUE 'PENDING';

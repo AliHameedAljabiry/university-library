@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-
+// --legacy-peer-deps
 export default {
   darkMode: ["class"],
   content: [

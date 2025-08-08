@@ -1,0 +1,6 @@
+to upload a json file has many items to the database we use seeding
+
+1- on the main directory create a new file called dummybooks.JSON where you put fake data in it
+2- on database create a new file called seed.ts
+3- on package.json add "seed": "npx tsx database/seed.ts", to the script
+4- run: npm  run seed

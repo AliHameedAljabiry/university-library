@@ -131,10 +131,10 @@ export const { POST } = serve<InitialData>(async (context) => {
 });
 
 
+//re_WzovFYhv_9zoqQncfaFCpWVFkcFtjmdfU
 
-
-5- deploy the app on vercel and copy the url and go to settings >> enviroment variables and the kay: NEXT_PUBLIC_PROD_API_ENDPOINT 
-  and the paste the url as a value and save it and go to .env.local and add it there
+5- deploy the app on vercel and copy the app url from vercel and go to settings >> enviroment variables and the kay: NEXT_PUBLIC_PROD_API_ENDPOINT 
+  and  paste the url as a value and save it and go to .env.local and add it there
   after that add it to config: prodApiEndpoint: process.env.NEXT_PUBLIC_PROD_API_ENDPOINT!, then redepley the app on vercel
 
 
@@ -187,8 +187,3 @@ STEP_FIFE: update lastActivityDate once a day for the user to check the last tim
 STEP_SIX: from env.local copy the RESEND_TOKEN and go to vercel >> settings anvironment variables add it there
   
 
-3:44
-is it possple that my email domain has .xyz and the email i signed up with has .com could cuase the issue?
-"from": "Ali Hameed <hello.alihameeddev.xyz>",
-"to": ["alihameed7121996ph@gmail.com"],
-     

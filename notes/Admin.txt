@@ -1,0 +1,3 @@
+install react colors
+npm install react-colorful
+5:14

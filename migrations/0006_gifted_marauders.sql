@@ -1,0 +1,1 @@
+ALTER TABLE "borrow_requests" ALTER COLUMN "status" SET DEFAULT 'PENDING';

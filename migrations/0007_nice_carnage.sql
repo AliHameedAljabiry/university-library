@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "books_borrowed" integer NOT NULL;

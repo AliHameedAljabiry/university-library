@@ -1,0 +1,14 @@
+1- set up the font
+
+2- create  new route groub (root) and move the home page to it and than create layout for this groub
+
+3- set up the database from neon
+
+4- set up authentcation
+
+   - next auth
+   - 
+
+5 * upstash
+
+6- resend

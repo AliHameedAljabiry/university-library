@@ -1,17 +1,17 @@
 interface Book {
-  id:nuber
+  id: string;
   title: string; 
   author: string; 
   genre: string; 
   rating: number; 
-  total_copies: number; 
-  available_copies: number; 
+  totalCopies: number; 
+  availableCopies: number; 
   description: string; 
-  color: string; 
-  cover: string;
-  video?: string;
-  summary?: string;
-  isLoanedBook?: boolean; 
+  coverUrl: string; 
+  coverColor: string;
+  videoUrl: string;
+  summary: string;
+  createdAt: Data | null
 }
 
 interface AuthCredentials {
@@ -21,4 +21,56 @@ interface AuthCredentials {
   universityId: number;
   universityCard: string;
   
+}
+interface User {
+  fullName?: string
+  email?: string;
+  password?: string;
+  universityId?: number;
+  universityCard?: string;
+  id: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  role: 'USER' | 'ADMIN';
+  lastActivityDate: Date | null;
+  createdAt: Date | null
+  booksBorrowed: string
+
+}
+
+interface BookParams {
+  id?: string;
+  title: string;
+  author: string;
+  genre: string;
+  rating: number;
+  coverUrl: string;
+  coverColor: string;
+  description: string;
+  totalCopies: number;
+  videoUrl?: string;
+  summary: string;
+  createdAt?: Date;
+}
+
+interface BorrowBookParams {
+  bookId: string;
+  userId: string;
+}
+interface SafeUser {
+  id: string;
+  fullName: string;
+}
+
+interface SafeBook {
+  id: string;
+  title: string;
+  availableCopies: number;
+  coverUrl?: string;
+}
+
+interface EnrichedBorrowRequest {
+  id: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  user: SafeUser;
+  book: SafeBook;
 }
